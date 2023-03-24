@@ -44,25 +44,23 @@
       const thisBooksList = this;
 
       thisBooksList.booksContainer = document.querySelector(select.containerOf.list);
-      thisBooksList.booksImage = document.querySelectorAll(select.book.image);
     }
-
     initActions() {
       const thisBooksList = this;
 
-      const bookImage = document.querySelectorAll(select.book.image);
-      for (let image of bookImage) {
-        image.addEventListener('dblclick', (event) => {
-          event.preventDefault();
-          image.classList.add(classNames.favorite);
-
-          const targetBook = image.getAttribute('data-id');
+      thisBooksList.booksContainer.addEventListener('dblclick', (event) => {
+        event.preventDefault();
+        const targetBook = event.target.offsetParent.getAttribute('data-id');
+        if (!thisBooksList.favoriteBooks.includes(targetBook)) {
+          event.target.offsetParent.classList.add(classNames.favorite);
           thisBooksList.favoriteBooks.push(targetBook);
-        });
-      }
+        } else {
+          event.target.offsetParent.classList.remove(classNames.favorite);
+          thisBooksList.favoriteBooks.pop(targetBook);
+        }
+      });
     }
   }
-
   new BooksList();
 }
 
